@@ -20,13 +20,13 @@ let "a+=0"
 while [ "$a" ]; do
 	[ "$a" -gt "$rev_new" ] && rev_new=$a
 	rev_new_raw=$(echo -n $rev_new_raw | sed 's/[0-9]*[^0-9]*\([0-9]*\)\(.*\)/\1 \2/')
-	a=$(echo $rev_new_raw | sed 's/\([0-9]*\).*/\1/') 
+	a=$(echo $rev_new_raw | sed 's/\([0-9]*\).*/\1/')
 done
 
 rev_old=$(cat ./source/svnrev.h 2>/dev/null | tr -d '\n' | sed 's/[^0-9]*\([0-9]*\).*/\1/')
 
 if [ "$rev_new" != "$rev_old" ] || [ ! -f ./source/svnrev.h ]; then
-	
+
 	cat <<EOF > ./source/svnrev.h
 #define SVN_REV "$rev_new"
 EOF
@@ -36,7 +36,7 @@ EOF
 	fi
 
 	rev_new=`expr $rev_new + 1`
-	rev_date=`date +%Y%m%d%H%M -u`
-	
+	rev_date=`date -u +%Y%m%d%H%M`
+
 
 fi
