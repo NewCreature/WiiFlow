@@ -254,7 +254,7 @@ static int GetLanguage(const char *lang)
 	else if (strncmp(lang, "ZHTW", 4) == 0) return CONF_LANG_TRAD_CHINESE;
 	else if (strncmp(lang, "ZH", 2) == 0) return CONF_LANG_SIMP_CHINESE;
 	else if (strncmp(lang, "KO", 2) == 0) return CONF_LANG_KOREAN;
-	
+
 	return CONF_LANG_ENGLISH; // Default to EN
 }
 
@@ -474,7 +474,7 @@ void CMenu::_game(bool launch)
 			_CategorySettings(true);
 			_showGame();
 			m_banner.SetShowBanner(true);
-			if(!m_gameSound.IsPlaying()) 
+			if(!m_gameSound.IsPlaying())
 				startGameSound = -6;
 			continue;
 		}
@@ -502,7 +502,7 @@ void CMenu::_game(bool launch)
 				movie.DeInit();
 				m_gameSound.FreeMemory();
 				m_banner.SetShowBanner(true);
-				if(!m_gameSound.IsPlaying()) 
+				if(!m_gameSound.IsPlaying())
 					startGameSound = -6;
 			}
 			else
@@ -547,7 +547,7 @@ void CMenu::_game(bool launch)
 				_cleanupBanner();
 				break;
 			}
-			else if((m_btnMgr.selected(m_gameBtnToogle) || m_btnMgr.selected(m_gameBtnToogleFull)) 
+			else if((m_btnMgr.selected(m_gameBtnToogle) || m_btnMgr.selected(m_gameBtnToogleFull))
 					&& (!NoGameID(CoverFlow.getHdr()->type) || m_video_playing))
 			{
 				m_zoom_banner = m_banner.ToogleZoom();
@@ -568,7 +568,7 @@ void CMenu::_game(bool launch)
 				m_banner.ToogleGameSettings();
 
 				_showGame();
-				if(!m_gameSound.IsPlaying()) 
+				if(!m_gameSound.IsPlaying())
 					startGameSound = -6;
 			}
 			else if(launch || m_btnMgr.selected(m_gameBtnPlay) || m_btnMgr.selected(m_gameBtnPlayFull) || !ShowPointer())
@@ -644,7 +644,7 @@ void CMenu::_game(bool launch)
 				//_initCF();
 				//CoverFlow.select();
 			}
-			else 
+			else
 			{
 				for(int chan = WPAD_MAX_WIIMOTES-1; chan >= 0; chan--)
 					if (CoverFlow.mouseOver(m_cursor[chan].x(), m_cursor[chan].y()))
@@ -710,7 +710,7 @@ void CMenu::_game(bool launch)
 				m_btnMgr.hide(b ? m_gameBtnAdultOff : m_gameBtnAdultOn);
 				m_btnMgr.show(m_gameBtnSettings);
 			}
-			if((CoverFlow.getHdr()->type != TYPE_HOMEBREW && (CoverFlow.getHdr()->type != TYPE_CHANNEL || 
+			if((CoverFlow.getHdr()->type != TYPE_HOMEBREW && (CoverFlow.getHdr()->type != TYPE_CHANNEL ||
 				(!m_cfg.getBool(CHANNEL_DOMAIN, "disable", true) && CoverFlow.getHdr()->type == TYPE_CHANNEL))) && !m_locked)
 				m_btnMgr.show(m_gameBtnDelete);
 		}
@@ -1080,7 +1080,7 @@ void CMenu::_launchGC(dir_discHdr *hdr, bool disc)
 		else //use cIOS instead to make sure Devolution works anyways
 			loadIOS(mainIOS, false);
 		ShutdownBeforeExit();
-		DEVO_SetOptions(path, id, memcard_emu, 
+		DEVO_SetOptions(path, id, memcard_emu,
 			widescreen, activity_led, m_use_wifi_gecko);
 		DEVO_Boot();
 	}
@@ -1140,8 +1140,8 @@ int CMenu::_loadIOS(u8 gameIOS, int userIOS, string id, bool RealNAND_Channels)
 			return LOAD_IOS_FAILED;
 		}
 		return LOAD_IOS_SUCCEEDED;
-	}	
-	
+	}
+
 	if(userIOS)
 	{
 		for(CIOSItr itr = _installed_cios.begin(); itr != _installed_cios.end(); itr++)
@@ -1246,12 +1246,12 @@ void CMenu::_launchChannel(dir_discHdr *hdr)
 			add_game_to_card(id.c_str());
 	}
 	m_cfg.setString(CHANNEL_DOMAIN, "current_item", id);
-	m_gcfg1.setInt("PLAYCOUNT", id, m_gcfg1.getInt("PLAYCOUNT", id, 0) + 1); 
+	m_gcfg1.setInt("PLAYCOUNT", id, m_gcfg1.getInt("PLAYCOUNT", id, 0) + 1);
 	m_gcfg1.setUInt("LASTPLAYED", id, time(NULL));
 
 	string emuPath = m_cfg.getString(CHANNEL_DOMAIN, "path");
 	int emulate_mode = min(max(0, m_cfg.getInt(CHANNEL_DOMAIN, "emulation", 1)), (int)ARRAY_SIZE(CMenu::_NandEmu) - 1);
-	
+
 	int userIOS = m_gcfg2.getInt(id, "ios", 0);
 	u64 gameTitle = TITLE_ID(hdr->settings[0],hdr->settings[1]);
 	bool useNK2o = (m_gcfg2.getBool(id, "useneek", false) && !neek2o());
@@ -1275,7 +1275,7 @@ void CMenu::_launchChannel(dir_discHdr *hdr)
 				Sys_Exit();
 			}
 			ShutdownBeforeExit();
-			Launch_nk(gameTitle, NandHandle.Get_NandPath(), 
+			Launch_nk(gameTitle, NandHandle.Get_NandPath(),
 				returnTo ? (((u64)(0x00010001) << 32) | (returnTo & 0xFFFFFFFF)) : 0);
 			while(1) usleep(500);
 		}
@@ -1372,7 +1372,7 @@ void CMenu::_launchGame(dir_discHdr *hdr, bool dvd)
 		/* Check disc */
 		if(Disc_IsWii() < 0)
 		{
-			if (Disc_IsGC() < 0) 
+			if (Disc_IsGC() < 0)
 			{
 				error(_t("errgame9", L"This is not a Wii or GC disc"));
 				Sys_Exit();
@@ -1566,6 +1566,12 @@ void CMenu::_launchGame(dir_discHdr *hdr, bool dvd)
 	{
 		app_gameconfig_load(id.c_str(), gameconfig, gameconfigSize);
 		free(gameconfig);
+	}
+
+	if(aspectRatio == CONF_ASPECT_4_3)
+	{
+		write32(0xd8006a0, 0x30000002); // 0x30000002 for 4:3, will patch elsewhere to implement custom game setting
+		mask32(0xd8006a8, 0, 2);
 	}
 
 	ExternalBooter_WiiGameSetup(wbfs_partition, dvd, patchregion, id.c_str());
@@ -1812,7 +1818,7 @@ void CMenu::_playGameSound(void)
 		}
 	}
 	m_gamesound_changed = false;
-	if(m_bnrSndVol == 0) 
+	if(m_bnrSndVol == 0)
 		return;
 
 	if(m_gameSoundThread != LWP_THREAD_NULL)
