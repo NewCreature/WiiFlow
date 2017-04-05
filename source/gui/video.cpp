@@ -130,7 +130,7 @@ CVideo::CVideo(void) :
 	m_rmode(NULL), m_frameBuf(), m_curFB(0), m_fifo(NULL),
 	m_yScale(0.0f), m_xfbHeight(0), m_wide(false),
 	m_width2D(640), m_height2D(480), m_x2D(0), m_y2D(0), m_aa(0), m_aaAlpha(false),
-	m_aaWidth(0), m_aaHeight(0), m_screensaver_alpha(0), m_showWaitMessage(false), 
+	m_aaWidth(0), m_aaHeight(0), m_screensaver_alpha(0), m_showWaitMessage(false),
 	m_WaitThreadRunning(false), m_showingWaitMessages(false)
 {
 	memset(m_frameBuf, 0, sizeof m_frameBuf);
@@ -201,7 +201,7 @@ void CVideo::init(void)
 	/* Widescreen Fix by tueidj, WiiU Check by crediar, thanks alot */
 	if(m_wide && AHBRPOT_Patched() && IsOnWiiU())
 	{
-		write32(0xd8006a0, 0x30000004);
+		write32(0xd8006a0, 0x30000004); // 0x30000002 for 4:3, will patch elsewhere to implement custom game setting
 		mask32(0xd8006a8, 0, 2);
 	}
 
@@ -500,7 +500,7 @@ void CVideo::shiftViewPort(float x, float y)
 }
 
 static inline u32 coordsI8(u32 x, u32 y, u32 w)
-{ 
+{
 	return (((y >> 2) * (w >> 3) + (x >> 3)) << 5) + ((y & 3) << 3) + (x & 7);
 }
 
@@ -573,7 +573,7 @@ void CVideo::_showWaitMessages(CVideo *m)
 	while(m->m_showWaitMessage)
 	{
 		currentLightLevel += fadeDirection * 5;
-		if(currentLightLevel >= 255) 
+		if(currentLightLevel >= 255)
 		{
 			currentLightLevel = 255;
 			fadeDirection = -1;
@@ -664,7 +664,7 @@ void CVideo::waitMessage(const vector<TexData> &tex, float delay)
 		wiiLightStartThread();
 		/* onscreen animation */
 		m_showWaitMessage = true;
-		LWP_CreateThread(&waitThread, (void *(*)(void *))_showWaitMessages, 
+		LWP_CreateThread(&waitThread, (void *(*)(void *))_showWaitMessages,
 					(void*)this, waitMessageStack, waitMessageStackSize, LWP_PRIO_HIGHEST);
 	}
 }
