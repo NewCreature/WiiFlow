@@ -1568,7 +1568,7 @@ void CMenu::_launchGame(dir_discHdr *hdr, bool dvd)
 		free(gameconfig);
 	}
 
-	if(aspectRatio == CONF_ASPECT_4_3)
+	if(CONF_GetAspectRatio() == CONF_ASPECT_16_9 && AHBRPOT_Patched() && IsOnWiiU() && aspectRatio == CONF_ASPECT_4_3)
 	{
 		write32(0xd8006a0, 0x30000002); // 0x30000002 for 4:3, will patch elsewhere to implement custom game setting
 		mask32(0xd8006a8, 0, 2);
